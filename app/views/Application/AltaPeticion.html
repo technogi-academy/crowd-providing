@@ -1,0 +1,9 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+<h1>Dar de alta petición</h1>
+<form action="@{GetPeticion}">
+    
+    <input type="text" name="id" value="<?php echo $_GET['id']; ?>"> 
+    <input type="text" name="nueva.categoria"/>
+    <input type="text" name="nueva.descripcion"/>
+</form>
