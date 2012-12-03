@@ -18,8 +18,8 @@ Category(cat1):
   name: gimnasios
     
 Supplier(technogym):
-    company: technogym
-    email: techno@gym.mx
+    company: technogi
+    email: techno@gi.mx
     categories: [cat1]
     
 
@@ -29,7 +29,7 @@ Request(req1):
   creationDate: 2012-11-29
   category: cat1
   description: >
-                Servicios de gimnasio virtual.
+                Servicios de gi virtual.
                 
                 
 Request(req2):
@@ -37,7 +37,7 @@ Request(req2):
   creationDate: 2012-11-30
   category: cat1
   description: >
-                Mas techno en gym.
+                Mas techno en gi.
                 
 Request(req3):
   client: alan
@@ -59,7 +59,7 @@ Conversation(conv1):
 Conversation(conv2):
       creationDate: 11-11-2012
       details: >
-                Pisos para gimnasio
+                Pisos para gi
       idSupplier: 1
       idRequest: 1
       client: alan
