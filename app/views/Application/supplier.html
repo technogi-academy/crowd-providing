@@ -1,0 +1,174 @@
+#{extends 'main.html' /}
+#{set title:'Supplier' /}
+
+
+#{set 'moreStyles'}
+<style type="text/css">
+    html, body{
+        height:100%;
+        background-color: #c0deed;
+    }
+    .hidden {
+        visibility: hidden;
+        display: none;
+    }
+    
+    .inputForm {
+        position: absolute;
+        float:left;
+        left: 400px;
+        padding:50px;
+        visibility: visible;
+        display: block;
+        background-color: rgba(255,255,255,0.3);
+    }
+    
+    #requestList{
+        
+        float:left;  
+        padding:20px;
+        margin-right: 2px;
+        overflow:auto;
+        max-width: 350px;
+        height: 80%;
+        background-color: rgba(0,0,0,0.1);
+    }
+    
+    .requestItem {
+        border-radius:15px;
+        border-style: solid;
+        border-width: 1px;
+        padding:5px;
+        background-color: #ffffff;
+    }
+    
+    .requestTitle{
+       font-weight: bold;
+       font-size: large; 
+    }
+    
+    .clicked {
+        background-color: rgba(255,255,255,0.75);
+    }
+    
+    .requestItem:hover {
+        background-color: rgba(255,255,255,0.5);
+    }
+</style>
+#{/set}
+
+
+#{set 'moreScripts'}
+<script type="text/javascript">
+    var supplierId =  '${supplier.id}';
+    var currentId = 0;
+    
+    $(function() {
+       
+        $.get("getSupplierRequests", {id: supplierId}, function(data) {
+            $.each(data, function(index, item) {
+                
+                var divId = 'requesItem_'+item.id;
+                 $('<div/>', {
+                                id:     divId,
+                                'class': 'requestItem', 
+                                click:   function( id ){
+                                    return function()
+                                    {
+                                        showForm(id);
+                                        $(this).toggleClass("clicked");
+                                        $("#requestList div").not(this).removeClass("clicked");
+                                        //this.style.backgroundColor = '#cecfee';
+                                    }
+                                }(item.id)
+                }).appendTo("#requestList");
+                
+                divId = "#"+divId;
+                $('<p/>',{
+                    'class':"requestTitle text-error"
+                }).appendTo($(divId))
+                .html("Request for: " + item.description);
+                $('<p/>',{
+                    'class':"text-info"
+                }).appendTo($(divId))
+                .html("<b>From:</b> " + item.client.username + " " + item.client.lastname1);
+                $('<p/>',{
+                    'class':"text-info"
+                }).appendTo($(divId))
+                .html("<b>Category:</b> " + item.category.name);
+                $('<p/>',{
+                    'class':"text-info"
+                }).appendTo($(divId))
+                .html("<b>Made on:</b> " + item.creationDate);
+            });
+            if (data.length == 0)
+            {
+                var divId = "#msgDiv";
+                $('<div/>', {
+                                id:     "msgDiv",
+                                'class': 'requestItem'
+                }).appendTo("#requestList");
+                $('<p/>',{
+                    'class':"requestTitle text-error"
+                }).appendTo($(divId))
+                .html("<b>No new Requests.</b>");
+            }
+        });
+    });
+    
+    
+    function showForm(reqId)
+    {
+        if (currentId != reqId) {
+            $("#conversationForm").addClass("inputForm");
+            $('#submitConversation').unbind('click');
+            $("#submitConversation").click(
+                    function() { 
+                        var msg = $("#message").val();
+                        var desc = $("#description").val();
+                        var att = $("#attachments").val();
+                        createConv(reqId, desc, msg, att);
+                    }
+            );
+        }
+        else
+            $("#conversationForm").toggleClass("inputForm");
+       
+           
+        currentId = reqId;
+        
+        
+    }
+    
+    function createConv(reqId, details, message, attachments)
+    {
+        $.post("addNewConversation", {idSupplier: supplierId, 
+                                    idRequest: reqId,
+                                    convDetails: details, 
+                                    message: message,
+                                    attachments: attachments}, 
+            function(data) {
+                if (data.status == 200) {
+                    alert("Conversation created!");
+                    document.location.reload(true);
+                }
+                
+            });
+        
+    }
+</script>
+#{/set}
+<h3>Requests <span class="from">to Supplier: ${supplier.company} </span></h3>
+
+<div id="requestList">
+    
+    
+</div>
+
+
+<div id="conversationForm" class="hidden">
+    Conversation Description: <input type="text" id="description"/><br/>
+    Message: <textarea rows="4" cols="50" id="message"></textarea><br/>
+    Attachments: <input type="file" id="attachments"/><br/>
+    <br/><input type="button" class="btn" value="Create" id="submitConversation"/>
+</div>

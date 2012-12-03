@@ -1,0 +1,30 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                           Application.index
+GET     /supplier                                   Application.supplier
+POST    /getConversations                           Application.getConversations
+GET     /testC                                      Application.testConversations
+GET     /convBySupplier                             Application.getConversationsBySupplier
+POST    /addNewConversation                         Application.addNewConversation
+POST    /addMessage                                 Application.addMessage
+POST    /getNewMessages                             Application.getNewMessages
+POST    /getNewConversations                        Application.getNewConversations
+POST    /closeConversation                          Application.closeConversation
+GET     /getSupplierRequests                        Application.getSupplierRequests
+GET     /client                                     Application.client
+GET     /supplierMsg                                Application.supplierMsg
+
+
+*     	/crud						 	      	module:crud
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

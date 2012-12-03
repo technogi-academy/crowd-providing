@@ -1,0 +1,220 @@
+#{extends 'main.html' /}
+#{set title:'Centro de mensajes' /}
+
+#{set 'moreStyles'}
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/conversations.css'}">
+#{/set}
+
+#{set 'moreScripts'}
+<script type="text/javascript">
+       
+    var idSupplier;
+    var currentId = 0;   
+    $(document).ready(function() {
+        var intervalId;
+        idSupplier=$('#supplierID').val();
+         $.post("getConversations", {id:idSupplier, isSupplier:true} , function(data) {
+            $.each(data, function(index, item) {
+                $('<div/>',{
+                    id: "Con_"+item.id,
+                    'class':"conversation",
+                    click:   function( id ){
+                        return function()
+                        {
+                            //if (intervalId != undefined)
+                            if (currentId != id && $("#Con_"+item.id+"_open").val()=="true") {
+                                $("#textMss").removeAttr("disabled");
+                                $("#submitMessage").removeAttr("disabled");
+                                $("#closed").attr("hidden","hidden");
+                                currentId = id;
+                            }
+                            else
+                            {
+                                $("#textMss").attr("disabled", "disabled");
+                                $("#submitMessage").attr("disabled", "disabled");
+                                if($("#Con_"+item.id+"_open").val()=="false")
+                                    $("#closed").removeAttr("hidden");
+                                currentId = 0;
+                            }
+                            
+                            $(this).toggleClass("clicked");
+                            $("#conversationList div").not(this).removeClass("clicked");
+                            
+                            clearInterval(intervalId);
+                            getMessages(id);
+                            intervalId = setInterval(function() {
+                                getMessages(id);
+                            }, 1000);
+                            
+                        }
+                    }(item.id)
+                    
+                }).appendTo($('#conversationList'));
+                
+                 $('<p/>',{
+                    'class':"conversationRequest text-error"
+                }).appendTo($('#Con_'+item.id))
+                .html("<b>Request for:</b> "+item.requestDesc);
+                
+                 $('<p/>',{
+                    'class':"conversationDetails text-info"
+                }).appendTo($('#Con_'+item.id))
+                .html("<b>Made on:</b> "+item.requestDate);
+                
+                
+                $('<p/>',{
+                    'class':"messageLink text-info"
+                }).appendTo($('#Con_'+item.id))
+                .html("<b>Client:</b> "+item.clientName+" "+item.clientLastname1);
+                
+                $('<p/>',{
+                    'class':"messageLink text-info"
+                }).appendTo($('#Con_'+item.id))
+                .html("<b>Contact:</b> "+item.clientEmail);
+                
+                $('<p/>',{
+                    'class':"conversationDate text-info"
+                }).appendTo($('#Con_'+item.id))
+                .html(item.creationDate);
+                
+                $('<p/>',{
+                    'class':"messageNum text-info",
+                    id:"Con_"+item.id+"_messageNum"
+                }).appendTo($('#Con_'+item.id))
+                .html("<b>Messages:</b> "+item.messagesLength);
+                
+                $('<p/>',{
+                    'class':"conversationDetails muted"
+                }).appendTo($('#Con_'+item.id))
+                .html(item.details);
+                
+                $('<input/>',{
+                    'type':"hidden",
+                    id:"Con_"+item.id+"_open",
+                    'value':item.open
+                }).appendTo($('#Con_'+item.id));
+                
+            });
+        });
+    });
+    
+    function getMessages(id) {
+    
+        var count=$(".message").length;   
+        
+        if($('#conversationID').val()!=id){
+            $('#messageList').html("");
+            $('#conversationID').val(id);
+            count=0;
+        }
+          
+         
+        $.post("getNewMessages", {conversationId: id, messageCount: count},
+        function(data) {
+            $.each(data, function(index, item) {
+                
+                if ($("#Mss_"+item.id).length == 0) // no existe el div
+                {
+                    if(count==0){              
+                        $('<div/>',{
+                            id:"Mss_"+item.id,
+                            'class':"message"
+                        }).prependTo($('#messageList'));
+                    }
+                    else{
+                        $('<div/>',{
+                            id:"Mss_"+item.id,
+                            'class':"message"
+                        }).appendTo($('#messageList'));
+                    }
+
+                    var sender = (item.sender == "Client")? "client said:": "you said:";
+
+
+
+                    $('<p/>',{
+                        'class':"messageSender text-error"
+                    }).appendTo($('#Mss_'+item.id))
+                    .html(sender);              
+
+                    $('<p/>',{
+                        'class':"messageBody text-info"
+                    }).appendTo($('#Mss_'+item.id))
+                    .html(item.message);
+
+                    $('<p/>',{
+                        'class':"messageDetail muted"
+                    }).appendTo($('#Mss_'+item.id))
+                    .html("Attachments: <a href='"+item.attachments+"'></a><br/>");
+
+                     $('<p/>',{
+                        'class':"messageDate muted"
+                    }).appendTo($('#Mss_'+item.id))
+                    .html(item.date);
+                }
+
+                                
+            });
+            if(data.length>0)
+             $('#messageList').prop('scrollTop', $('#messageList').prop('scrollHeight'));
+        });
+        
+        $('#submitMessage').unbind('click');    
+        $('#submitMessage').click(
+        function(){
+            var message=$("#textMss").val();
+            var conv=$("#conversationID").val();
+            var attach="";
+            addMessage(conv,message,attach, true);            
+        } 
+    );
+    }
+        
+    function addMessage(conversationId, message, attachments,sentFromSupplier){
+        $.post("addMessage", {conversationId: conversationId, 
+            message: message,
+            attachments: attachments, 
+            message: message,
+            sentFromSupplier: sentFromSupplier}, 
+        function(data) {
+            if (data.status == 200) {
+                getMessages(conversationId);
+                $("#Con_"+conversationId+"_messageNum").html("Messages: "+$(".message").length+"<br/>");
+                $("#textMss").val("");
+            }
+            else if(data.status==409){
+                $("#Con_"+conversationId+"_open").attr("value","false");
+            }
+                
+        });
+    }
+    
+</script>
+
+#{/set}
+
+<input type="hidden" id="supplierID" value=${supplier.id}>
+
+
+<div id="conversations">
+    <input type="hidden" id="conversationID" value="0">
+    <h3>Conversations</h3>
+<div id="conversationList"> 
+</div>
+</div>
+
+
+
+<div id="messages">
+    <h3>Messages</h3>
+    <div id="messageList">
+        
+    </div>
+    <div id="writeMessage">
+        <div id="newMessage" class="addMessage">
+            <textarea rows="3" class="textMessage" id="textMss" disabled="disabled"></textarea>
+            <input type="submit" class="btn" id="submitMessage" value="Send" disabled="disabled"/>
+            <a id="closed" class="text-error" hidden="hidden"><b>The client closed this conversation.</b></a>
+    </div>
+</div>
+

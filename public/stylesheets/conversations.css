@@ -1,0 +1,90 @@
+ html, body{
+        height:100%;
+        background-color: #c0deed;
+    }
+    #conversations{
+        float:left;  
+        padding:20px;
+        margin-right: 2px;
+        width:25%;
+        height:90%;
+        overflow:auto;
+        background-color: rgba(0,0,0,0.1);
+        
+    }
+    #conversationList{
+        overflow:auto;
+        max-height: 90%;
+    }
+    
+    .conversationRequest {
+       font-weight: bold;
+       font-size: large; 
+    }
+    .messageBody{
+        max-width: 100%;
+        word-wrap: break-word;
+    }
+    .messageDetail {
+        font-style: italic;
+    }
+    .messageSender{
+        font-weight: bold;
+        font-style: italic;
+    }
+    .messageDate {
+         font-weight: lighter;
+        font-size: small;
+    }
+
+    .conversation{
+        border-radius:15px;
+        border-style: solid;
+        border-width: 1px;
+        padding:5px;
+        background-color: #ffffff;
+    }
+
+    .conversation:hover {
+        background-color: rgba(255,255,255,0.75);
+    }
+
+    #messages{
+        float:left;
+        padding:50px;
+        height: 80%;
+        width: 60%;
+        overflow:auto;
+        background-color: rgba(255,255,255,0.3);
+    }
+    
+    #messageList{
+        overflow:auto;
+        height: 60%;
+    }
+    
+
+    .message{
+        border-radius:15px;
+        border-style: solid;
+        border-width: 1px;
+        padding:5px;
+        background-color: #ffffff;
+        
+    }
+    
+    .clicked {
+        
+         background-color: rgba(255,255,255,0.5);
+    }
+    .right{
+        float:right;
+    }
+
+    .textMessage{
+        width: 100%;
+        overflow:hidden;
+        resize: none;
+        max-width: 100%;
+        display: inline-block;
+    }
