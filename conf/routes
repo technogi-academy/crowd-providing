@@ -14,3 +14,12 @@ GET     /public/                                staticDir:public
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
+
+# Import Secure routes
+*       /                                       module:secure
+
+# Chat page
+GET     /chat                                Conversations.index
+GET     /chat/room                           Conversations.room
+POST    /chat/room                           Conversations.say
+GET     /chat/room/leave                     Conversations.leave  

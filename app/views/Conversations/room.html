@@ -1,0 +1,61 @@
+#{extends 'main.html' /}
+#{set title:'Basic Chat room' /}
+
+<h1>You are now chatting as ${user} <a href="@{Secure.logout()}">logout</a></h1> 
+
+<div id="thread">
+    #{list events}
+        #{if _.type == 'message'}
+            <div class="message ${_.user}">
+                <h2>${user == _.user ? 'you' : _.user }</h2>
+                <p>
+                    ${_.message}
+                </p>
+            </div>
+        #{/if}
+        #{if _.type == 'join'}
+            <div class="message notice">
+                <h2></h2>   
+                <p>
+                    ${_.user} joined the room
+                </p>
+            </div>
+        #{/if}
+        #{if _.type == 'leave'}
+            <div class="message notice">
+                <h2></h2>
+                <p>
+                    ${_.user} left the room
+                </p>
+            </div>
+        #{/if}
+    #{/list}
+</div>
+
+<div id="newMessage">
+    #{form @say(message)}
+        <input type="text" id="message" name="message" autocomplete="off">
+        <input type="submit" value="send" id="send">
+    #{/}
+</div>
+
+<script type="text/javascript" charset="${_response_encoding}">
+
+    // Scroll the messages panel to the end
+    var scrollDown = function() {
+        $('#thread').scrollTo('max')
+    }
+
+    // Reload the whole messages panel
+    var refresh = function() {
+        $('#thread').load('@{room(user)} #thread .message', function() {
+            scrollDown()
+        })
+    }
+    
+    // Call refresh every 5 seconds
+    setInterval(refresh, 5000)
+    
+    scrollDown()
+    
+</script>

@@ -40,6 +40,14 @@ public class Client extends Model {
 	
 	@OneToOne
 	public Privacy privacy;
+        
+        public int registeredKey = 0;
 	
-	
+        /*
+        * Metodo que verifica si un usuario ya fue registrado
+        */
+
+        public static Client connect(String username, String password) {
+            return find("byUsernameAndPassword", username, password).first();
+        }
 }

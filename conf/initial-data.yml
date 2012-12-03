@@ -1,0 +1,16 @@
+Client(lobato):
+  username: lobato
+  password: lobato
+  registeredKey: 1
+  
+Supplier(gerardo):
+  company: gerry
+  email: gerardo.adrian@gmail.com
+  password: gerardo
+  registeredKey: 1
+  
+Supplier(tiscareno):
+  company: tisca
+  email: gerrytisca@gmail.com
+  password: tisca
+  registeredKey: 1
