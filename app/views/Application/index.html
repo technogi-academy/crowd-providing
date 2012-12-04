@@ -1,0 +1,33 @@
+#{extends 'register.html' /}
+#{set title:'Sign up' /}
+
+<h1 style="float: center;" > Welcome to Crowd Providing</h1>
+<br/>
+<div class="form-signin">
+    <table style="align:center; width: 100%">
+        <tr ><td colspan="2">
+            <center>        
+            <img style="float: center;"  alt="Consultoria Technogi" src="http://static.wix.com/media/040721_158a25cc237a4573d0f242bb440406ea.png_srz_303_54_75_22_0.50_1.20_0.00_png_srz">
+            <br/>
+            <br/>
+            <br/>
+            </center>
+        </td></tr>
+        <tr>
+            <td>
+                <form action="@{signupClient}">
+                    <center>
+                        <input type="Submit" value="Sign up as a Client" style="float: center;" class="btn btn-large btn-primary"/>
+                    </center>
+                </form>
+            </td>
+            <td>
+                <form action="@{signupSupplier}">
+                    <center>
+                        <input type="Submit" value="Sign up as a Supplier" class="btn btn-large btn-primary" style="float: center;"/>
+                    </center>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>

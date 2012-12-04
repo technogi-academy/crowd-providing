@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+#{extends 'register.html' /}
+#{set title:'Existing user' /}
+
+<div class="form-signin">
+    
+<form action="@{profileClient}">
+    <p style="text-align: center;">Your registration has been saved</p>
+    <input type="hidden" value="${client.getId()}" name="id"/>
+    <input style="text-align: center;" type="submit" value="Go to your profile" class="btn btn-large btn-primary"/>
+    <br/>
+</form>
+</div>

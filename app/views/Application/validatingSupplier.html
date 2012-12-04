@@ -1,0 +1,41 @@
+#{extends 'register.html' /}
+#{set title:'Validating supplier' /}
+
+
+<h2 style="text-align: center;">The information of the registered Supplier is:</h2>
+<br/>
+<div class="form-signin">
+<form action="@{profileSupplier}">
+<table class="tInfo" style="align:center; width: 380px; text-align: left">
+    <ul>
+    <tr ><td>
+    <li class="form-signin-heading">Company: </td><td style="color: darkblue"> ${supplier.company}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Categories:</td><td  style="color: darkblue"> ${Arrays.toString(supplier.categories)}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Password:</td><td  style="color: darkblue"> ${supplier.password}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Email: </td><td style="color: darkblue">${supplier.email}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Registered date: </td><td  style="color: darkblue">${supplier.registerDate}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Registered key: </td><td  style="color: darkblue">${supplier.registeredKey}</li>
+    </td></tr><tr><td>
+</ul> 
+</table>
+<br/>
+    <input type="hidden" value="${supplier.getId()}" name="id"/>
+    <table style="width: 350px;">
+        <tr><td>
+    <input type="submit" value="Confirm registration" class="btn btn-large btn-primary"/>
+    <br/>
+            </td>
+</form>
+<form action="@{signupSupplier}">
+    </tr><tr><td  >
+    <input style="float: left; padding: 2px 9px 2px; font-size: 11px;" type="submit" value="Back to Sign up" class="btn"/>
+    </td></tr>
+    </table>
+</form>
+</div>
+

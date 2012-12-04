@@ -1,0 +1,134 @@
+#{extends 'register.html' /}
+
+#{set title:'Sign up Client' /}
+
+<script>
+    $(document).ready(function(){
+        $.validator.addMethod("validateDate", function (value, element) { 
+            var today=new Date();
+            var DOB = Date.parse(value);  
+            if((DOB < today)) {  
+                return true;  
+            }  
+            return false;  
+        }, "The date must be less than today");
+        $("#f1").validate({rules: {
+                "client.username": {required: true, maxlength: 15},
+                "client.name": {required: true, maxlength: 20},
+                "client.lastname1": {required: true, maxlength: 15},
+                "client.lastname2": {maxlength: 15},
+                "client.password": {required: true, maxlength: 20},
+                "client.confirm": {equalTo: "#password", maxlength: 20},
+                "client.email": {required: true,email: true, maxlength: 25},
+                "client.dateOfBirth":{required: true, validateDate:true}
+            },
+            messages: {
+                "client.username":{required:"Please enter a username", maxlength:"The length must be less than 15" },
+                "client.name": {required:"Please enter a name", maxlength:"The length must be less than 20" },
+                "client.lastname1": {required:"Please enter a last name", maxlength:"The length must be less than 15" },
+                "client.password": {required:"Please enter a password", maxlength:"The length must be less than 20"},
+                "client.confirm":{equalTo:"The passwords must match", maxlength:"The length must be less than 20"},
+                "client.email":{required:"Please enter an email", email:"Please enter a valid email", maxlength:"The length must be less than 25" },
+                "client.dateOfBirth":{required: "Please enter a your birthday" }
+            },
+            errorElement: "div",
+            wrapper: "div",
+                  
+            errorPlacement: function(error, element ) {
+      
+                if ( element.hasClass('respuestas')||element.attr('type') == 'radio'|| element.attr('type') == 'checkbox'){
+                            
+                    element = element.parent();
+                    element.before(error);
+                    error.insertAfter(element)
+                    offset = element.offset();
+                    error.addClass('message');
+                    error.css('left', offset.left +80);
+                    error.css('top', offset.top +50 );
+                }else{
+                            
+                    offset = element.offset();
+                    error.insertAfter(element)
+                    error.addClass('message');
+                           
+                    error.css('left', offset.left);
+                    error.css('top', offset.top);
+                }
+            }
+        });
+    });
+</script>
+
+<h2 style="text-align: center;">Sign up as a Client</h2>
+<br/>
+<form id="f1" action="@{saveNewClient}" class="form-signin">    
+    <table class="tFill" style="align:center; width: 100%">
+    <tr>
+        <td>
+        <label class="form-signin-heading">Username: </label>
+        </td><td style="text-align:left">
+            <input type="text" name="client.username" class="input-block-level" maxlength="16"/>
+        <span style="color: red;">#{error 'client.username'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Name: </label>
+        </td><td style="text-align:left">
+            <input type="text" name="client.name" class="input-block-level" maxlength="21"/>
+        <span style="color: red;">#{error 'client.name'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Last name: </label>
+        </td><td style="text-align:left">
+            <input type="text" name="client.lastname1" class="input-block-level" maxlength="16"/>
+        <span style="color: red;">#{error 'client.lastname1'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Second Last name:<br/><i>(Optional)</i></label>
+        </td><td style="text-align:left">
+            <input type="text" name="client.lastname2" class="input-block-level" maxlength="16"/>
+        <span style="color: red;">#{error 'client.lastname2'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Password: </label>
+        </td><td style="text-align:left">
+            <input id="password" type="password" name="client.password" class="input-block-level" maxlength="21"/>
+        <span style="color: red;">#{error 'client.password'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Confirm Password: </label>
+        </td><td style="text-align:left">
+            <input type="password" name="client.confirm" class="input-block-level" maxlength="21"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">E-mail: </label>
+        </td><td style="text-align:left">
+            <input type="email" name="client.email" class="input-block-level" maxlength="26"/>
+        <span style="color: red;">#{error 'client.email'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Birthday: </label>
+        </td><td style="text-align:left">
+        <input type="date" name="client.dateOfBirth" class="input-block-level"/>
+        <span style="color: red;">#{error 'cliente.dateOfBirth'/}</span>
+        </td>
+    </tr>
+    </table>
+    <br/>
+    <button  type="submit" value="Save" class="btn btn-large btn-primary">Submit </button>
+    <br>
+    
+</form>

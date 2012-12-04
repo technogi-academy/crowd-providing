@@ -1,0 +1,100 @@
+#{extends 'register.html' /}
+#{set title:'Signup supplier' /}
+<script>
+    $(document).ready(function(){
+        $("#f2").validate({rules: {
+                "supplier.company": {required: true, maxlength: 25},
+                "supplier.categories[]": {required: true},
+                "supplier.password": {required: true, maxlength: 20},
+                "supplier.confirm": {equalTo: "#password", maxlength: 20},
+                "supplier.email": {required: true,email: true, maxlength: 25}
+            },
+            messages: {
+                "supplier.company":{required:"Please enter a Company Name", maxlength:"The length must be less than 25" },
+                "supplier.categories[]": {required:"Please select at least one category"},
+                "supplier.password": {required:"Please enter a Password", maxlength:"The length must be less than 20" },
+                "supplier.confirm":{equalTo:"The Passwords must match", maxlength:"The length must be less than 20"},
+                "supplier.email":{required:"Please enter an email", email:"Please enter a valid email", maxlength:"The length must be less than 25" }
+            },
+            errorElement: "div",
+            wrapper: "div",
+                  
+            errorPlacement: function(error, element ) {
+      
+                if ( element.hasClass('respuestas')||element.attr('type') == 'radio'|| element.attr('type') == 'checkbox'){          
+                    element = element.parent();
+                    element.before(error);
+                    error.insertAfter(element)
+                    offset = element.offset();
+                    error.addClass('message');
+                    error.css('left', offset.left +80);
+                    error.css('top', offset.top +50 );
+                }else{
+                            
+                    offset = element.offset();
+                    error.insertAfter(element)
+                    error.addClass('message');
+                           
+                    error.css('left', offset.left);
+                    error.css('top', offset.top);
+                }
+            }
+        });
+    });
+</script>
+
+
+<h2 style="text-align: center;">Sign up as a Supplier</h2>
+<br/>    <br/>
+
+<form id="f2" action="@{saveNewSupplier}" class="form-signin">
+    <table class="tFill" style="align:center; width: 100%">
+    <tr>
+        <td>
+        <label class="form-signin-heading">Company: </label>
+        </td><td style="text-align:left" >
+            <input class="input-block-level" type="text" name="supplier.company" maxlength="26"/>
+        <span style="color: red;">#{error 'supplier.company'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Categories: </label><br/><br/>
+        </td><td  style="text-align: left"><br/>
+                <input type="checkbox" name="supplier.categories[]" value="Cosmetics"/> Cosmetics<br/>
+                <input type="checkbox" name="supplier.categories[]" value="Books"/> Books<br/>
+                <input type="checkbox" name="supplier.categories[]" value="Trips"/> Trips<br/>
+                <input type="checkbox" name="supplier.categories[]" value="Food"/> Food<br/>
+                <input type="checkbox" name="supplier.categories[]" value="Coffee"/> Coffee<br/>
+                <input type="checkbox" name="supplier.categories[]" value="Farmacy"/> Farmacy<br/><br/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Password: </label>
+        </td><td style="text-align:left" >
+            <input id="password" class="input-block-level" type="password" name="supplier.password" maxlength="21"/>
+        <span style="color: red;">#{error 'supplier.password'/}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">Confirm Password: </label>
+        </td><td style="text-align:left">
+            <input class="input-block-level" type="password" name="supplier.confirm" maxlength="21"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <label class="form-signin-heading">E-mail: </label>
+        </td><td style="text-align:left">
+            <input class="input-block-level" type="email" name="supplier.email" maxlength="26"/>
+        <span style="color: red;">#{error 'supplier.email'/}</span>
+    </td>
+    </tr>
+    </table>
+        <br/>
+        <button  type="submit" value="Save" class="btn btn-large btn-primary">Save</button>
+        <br>
+    
+</form>

@@ -1,0 +1,23 @@
+#{extends 'register.html' /}
+#{set title:'View Suppliers' /}
+
+<h1>List of Suppliers</h1>
+<br/>
+<div class="form-signin">
+<ul style="text-align: left;">
+#{list items: suppliers, as: 'supplier'}
+<li>
+    <ul>
+        <li class="form-signin-heading">Id: ${supplier.id}</li>
+        <li class="form-signin-heading">Company: ${supplier.company}</li>
+        <li class="form-signin-heading">Categories: ${Arrays.toString(supplier.categories)}</li>
+        <li class="form-signin-heading">Password: ${supplier.password}</li>
+        <li class="form-signin-heading">Email: ${supplier.email}</li>
+        <li class="form-signin-heading">Registered date: ${supplier.registerDate}</li>
+        <li class="form-signin-heading">Registered key: ${supplier.registeredKey}</li>
+    </ul>
+    <br/>
+</li>
+#{/list}
+</ul>
+</div>

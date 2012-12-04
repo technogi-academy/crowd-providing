@@ -1,0 +1,38 @@
+#{extends 'register.html' /}
+#{set title:'Validating client' /}
+
+
+<h2 style="text-align: center;">You will receive an e-mail to confirm your registration</h2>
+<br/><br/>
+<div class="form-signin">
+<form action="@{confirmSignup}" >
+    <h6 >Your registered information is:</h6>
+    <table class="tInfo" style="align:center; width: 100%; text-align: left">
+    <ul>
+    <tr><td>
+    <li class="form-signin-heading">Username:</td><td style="color: darkblue"> ${client.username}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Name: </td><td style="color: darkblue">${client.name}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Lastname: </td><td style="color: darkblue">${client.lastname1}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Password:</td><td style="color: darkblue">${client.password}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Email:</td><td style="color: darkblue"> ${client.email}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Date of birth:</td><td style="color: darkblue">${client.dateOfBirth}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Registered Date: </td><td style="color: darkblue">${client.registerDate}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Registered Key:</td><td style="color: darkblue"> ${client.registeredKey}</li>
+    </td></tr>
+    </ul>
+</table>
+
+    <input type="hidden" value="${client.getId()}" name="id"/>
+    <!--
+    <label style="color: red"><i>(Al dar click envia mail)</i></label>
+    <input type="submit" value="Submit" class="btn btn-large btn-primary"/>
+    -->
+</form>
+</div>

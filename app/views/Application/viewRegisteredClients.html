@@ -1,0 +1,25 @@
+#{extends 'register.html' /}
+#{set title:'View Clients' /}
+
+<h1>List Clients</h1>
+<br/>
+<div class="form-signin">
+    <ul style="text-align: left">
+    #{list items: clients, as: 'client'}
+    <li>
+        <ul>
+            <li class="form-signin-heading">Id: ${client.id}</li>
+            <li class="form-signin-heading">Username: ${client.username}</li>
+            <li class="form-signin-heading">Name: ${client.name}</li>
+            <li class="form-signin-heading">Lastname: ${client.lastname1}</li>
+            <li class="form-signin-heading">Password: ${client.password}</li>
+            <li class="form-signin-heading">Email: ${client.email}</li>
+            <li class="form-signin-heading">Date of birth: ${client.dateOfBirth}</li>
+            <li class="form-signin-heading">Registered Date: ${client.registerDate}</li>
+            <li class="form-signin-heading">Registered Key: ${client.registeredKey}</li>
+        </ul>
+        <br/>
+    </li>
+    #{/list}
+    </ul>
+</div>

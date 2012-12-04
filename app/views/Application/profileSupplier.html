@@ -1,0 +1,27 @@
+#{extends 'register.html' /}
+#{set title:'View Supplier' /}
+
+
+<label style=" font-size: 10px; color: red"><i>( Link que redirecciona el mail de confirma registro---Pagina que simula el dashboard del usuario)</i></label><br/><br/>
+<h2 style="text-align: center;">Welcome to your profile</h1><br/>
+
+<div class="form-signin">
+<h6>Your registered information is:</h6>
+<table class="tInfo" style="align:center; width: 100%; text-align: left">
+    <ul>
+    <tr><td>
+    <li class="form-signin-heading">Company:</td><td style="color: darkblue"> ${supplier.company}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Categories:</td><td  style="color: darkblue"> ${Arrays.toString(supplier.categories)}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Password:</td><td  style="color: darkblue"> ${supplier.password}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Email: </td><td style="color: darkblue">${supplier.email}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Registered date: </td><td  style="color: darkblue">${supplier.registerDate}</li>
+    </td></tr><tr><td>
+    <li class="form-signin-heading">Registered key: </td><td  style="color: darkblue">${supplier.registeredKey}</li>
+    </td></tr><tr><td>
+</ul> 
+</table>
+</div>
